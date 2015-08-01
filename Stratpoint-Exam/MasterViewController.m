@@ -8,6 +8,9 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "ImageDisplayView.h"
+#import "MovieCell.h"
+#import "Movie.h"
 
 @interface MasterViewController ()
 
@@ -20,18 +23,17 @@
     [super awakeFromNib];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
         self.clearsSelectionOnViewWillAppear = NO;
-        self.preferredContentSize = CGSizeMake(320.0, 600.0);
+//        self.preferredContentSize = CGSizeMake(320.0, 600.0);
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    // Set URLString
+    NSString *urlString = @"https://dl.dropboxusercontent.com/u/5624850/movielist/list_movies_page1.json";
+    [self fetchURLData:urlString];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,8 +54,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        // Process segue and call the detailview controller
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = self.objects[indexPath.row];
+        Movie *object = self.objects[indexPath.row];
         DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         [controller setDetailItem:object];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
@@ -72,24 +75,56 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
-    NSDate *object = self.objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    MovieCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    Movie *object = self.objects[indexPath.row];
+    cell.titleLabel.text = object.title;
+    cell.yearLabel.text = [object.year stringValue];
+    cell.backgroundImage.imageUrl = [object getBackdropUrl];
+    
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (void)fetchURLData:(NSString *)urlString {
+    if (self.objects) {
+        // Clear all objects for a fresh load
+        [self.objects removeAllObjects];
+    }
+    else {
+        self.objects = [[NSMutableArray alloc] init];
+    }
+    dispatch_async(dispatch_get_global_queue(
+                                             DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Load the Data from the url
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSData *data = [NSData dataWithContentsOfURL:
+                        url];
+        [self performSelectorOnMainThread:@selector(fetchedData:)
+                               withObject:data waitUntilDone:YES];
+    });
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
+- (void)fetchedData:(NSData *)data {
+    // Parse JSON Data
+    NSError* error;
+    NSDictionary *json = [NSJSONSerialization
+                          JSONObjectWithData:data //1
+                          
+                          options:kNilOptions
+                          error:&error];
+    if (json) {
+        NSDictionary *dataDictionary = [json objectForKey:@"data"];
+        if (dataDictionary) {
+            NSArray *movies = [dataDictionary objectForKey:@"movies"];
+            for (NSDictionary *movieJson in movies) {
+                [self.objects addObject:[Movie movieWithJsonDict:movieJson]];
+            }
+        }
+        [self.tableView reloadData];
+        // Preload the first object for Ipads
+        self.detailViewController.detailItem = self.objects.firstObject;
+    }
+    else{
+        NSLog(@"Error:%@",[error localizedDescription]);
     }
 }
 

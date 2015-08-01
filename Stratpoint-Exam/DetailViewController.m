@@ -28,7 +28,16 @@
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        // Fill up Labels and Images
+        self.detailDescriptionLabel.text = self.detailItem.overview;
+        self.titleLabel.text = self.detailItem.title;
+        self.yearLabel.text = [self.detailItem.year stringValue];
+        
+        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setPositiveFormat:@"##,##,###.#"];
+        self.ratingLabel.text = [numberFormatter stringFromNumber:self.detailItem.rating];
+        self.coverImage.imageUrl = [self.detailItem getCoverUrl];
+        self.backdropImage.imageUrl = [self.detailItem getBackdropUrl];
     }
 }
 

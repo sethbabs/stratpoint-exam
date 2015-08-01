@@ -15,6 +15,9 @@
 		9D96171A1B68C1A60072451A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D9617191B68C1A60072451A /* Images.xcassets */; };
 		9D96171D1B68C1A60072451A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D96171B1B68C1A60072451A /* LaunchScreen.xib */; };
 		9D9617291B68C1A60072451A /* Stratpoint_ExamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D9617281B68C1A60072451A /* Stratpoint_ExamTests.m */; };
+		9DA87BA21B6C3A0C00ADDF7C /* MovieCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA87BA11B6C3A0C00ADDF7C /* MovieCell.m */; };
+		9DB169111B6A468100645CBC /* Movie.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DB169101B6A468100645CBC /* Movie.m */; };
+		9DB169181B6A5A8700645CBC /* ImageDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DB169171B6A5A8700645CBC /* ImageDisplayView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +46,12 @@
 		9D9617221B68C1A60072451A /* Stratpoint-ExamTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Stratpoint-ExamTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D9617271B68C1A60072451A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D9617281B68C1A60072451A /* Stratpoint_ExamTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Stratpoint_ExamTests.m; sourceTree = "<group>"; };
+		9DA87BA01B6C3A0C00ADDF7C /* MovieCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieCell.h; sourceTree = "<group>"; };
+		9DA87BA11B6C3A0C00ADDF7C /* MovieCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieCell.m; sourceTree = "<group>"; };
+		9DB1690F1B6A468100645CBC /* Movie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Movie.h; sourceTree = "<group>"; };
+		9DB169101B6A468100645CBC /* Movie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Movie.m; sourceTree = "<group>"; };
+		9DB169161B6A5A8700645CBC /* ImageDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDisplayView.h; sourceTree = "<group>"; };
+		9DB169171B6A5A8700645CBC /* ImageDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDisplayView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,12 +93,11 @@
 		9D9617081B68C1A60072451A /* Stratpoint-Exam */ = {
 			isa = PBXGroup;
 			children = (
+				9DB169121B6A5A0900645CBC /* Controller */,
+				9D9617331B68C4B20072451A /* View */,
+				9D9617321B68C4A30072451A /* Objects */,
 				9D96170D1B68C1A60072451A /* AppDelegate.h */,
 				9D96170E1B68C1A60072451A /* AppDelegate.m */,
-				9D9617101B68C1A60072451A /* MasterViewController.h */,
-				9D9617111B68C1A60072451A /* MasterViewController.m */,
-				9D9617131B68C1A60072451A /* DetailViewController.h */,
-				9D9617141B68C1A60072451A /* DetailViewController.m */,
 				9D9617161B68C1A60072451A /* Main.storyboard */,
 				9D9617191B68C1A60072451A /* Images.xcassets */,
 				9D96171B1B68C1A60072451A /* LaunchScreen.xib */,
@@ -122,6 +130,37 @@
 				9D9617271B68C1A60072451A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9D9617321B68C4A30072451A /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				9DB1690F1B6A468100645CBC /* Movie.h */,
+				9DB169101B6A468100645CBC /* Movie.m */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
+		9D9617331B68C4B20072451A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9DB169161B6A5A8700645CBC /* ImageDisplayView.h */,
+				9DB169171B6A5A8700645CBC /* ImageDisplayView.m */,
+				9DA87BA01B6C3A0C00ADDF7C /* MovieCell.h */,
+				9DA87BA11B6C3A0C00ADDF7C /* MovieCell.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		9DB169121B6A5A0900645CBC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				9D9617101B68C1A60072451A /* MasterViewController.h */,
+				9D9617111B68C1A60072451A /* MasterViewController.m */,
+				9D9617131B68C1A60072451A /* DetailViewController.h */,
+				9D9617141B68C1A60072451A /* DetailViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -226,8 +265,11 @@
 			files = (
 				9D96170F1B68C1A60072451A /* AppDelegate.m in Sources */,
 				9D9617121B68C1A60072451A /* MasterViewController.m in Sources */,
+				9DB169111B6A468100645CBC /* Movie.m in Sources */,
+				9DA87BA21B6C3A0C00ADDF7C /* MovieCell.m in Sources */,
 				9D96170C1B68C1A60072451A /* main.m in Sources */,
 				9D9617151B68C1A60072451A /* DetailViewController.m in Sources */,
+				9DB169181B6A5A8700645CBC /* ImageDisplayView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +466,7 @@
 				9D96172E1B68C1A60072451A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9D96172F1B68C1A60072451A /* Build configuration list for PBXNativeTarget "Stratpoint-ExamTests" */ = {
 			isa = XCConfigurationList;
@@ -432,6 +475,7 @@
 				9D9617311B68C1A60072451A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

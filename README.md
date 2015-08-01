@@ -1,0 +1,1 @@
+# stratpoint-exam
